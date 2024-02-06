@@ -1,5 +1,6 @@
 const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const validateUserData = require('../validations/userValidation');
 
 async function register(req, res) {
@@ -12,7 +13,7 @@ async function register(req, res) {
 
         // Validate user data
         const isValid = validateUserData(data);
-        if(!isValid) return res.status(400).send(isValid);
+        if(isValid != true) return res.status(400).send(isValid);
 
         const {name, email, password} = data;
 
@@ -105,4 +106,9 @@ async function login(req, res) {
             message: error.message
         })
     }
+}
+
+module.exports = {
+    register,
+    login
 }
