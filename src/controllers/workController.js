@@ -41,39 +41,14 @@ async function getAllWorks(req, res) {
             createdAt: 1,
             description: 1,
             status: 1
-        }).sort( {createdAt : -1} ).skip((page-1)*10).limit(10);
+        }).sort( {createdAt : -1} ).skip((page-1)*6).limit(6);
+
+        const count = await workModel.find({userId}).countDocuments();
 
         return res.status(200).send({
             status: true,
-            data: works
-        })
-    } catch (error) {
-        res.status(500).send({
-            status: false,
-            message: error.message
-        })
-    }
-}
-
-async function getPendingWorks(req, res) {
-    try {
-        const userId = req.userData._id;
-        const page = req.params.page;
-        const works = await workModel.find({
-            userId: userId,
-            status: 'pending'
-        }).select({
-            title: 1,
-            date: 1,
-            time: 1,
-            createdAt: 1,
-            description: 1,
-            status: 1
-        }).sort( {createdAt : -1} ).skip((page-1)*10).limit(10);
-
-        return res.status(200).send({
-            status: true,
-            data: works
+            data: works,
+            count: count
         })
     } catch (error) {
         res.status(500).send({
@@ -90,6 +65,7 @@ async function removeWork(req, res) {
             status: false,
             message: 'Invalid workId'
         })
+
 
         const deletedWork = await workModel.findOneAndDelete({
             _id: workId,
@@ -108,6 +84,5 @@ async function removeWork(req, res) {
 module.exports = {
     addWork,
     getAllWorks,
-    getPendingWorks,
     removeWork
 }

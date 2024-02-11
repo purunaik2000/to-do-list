@@ -11,12 +11,6 @@ const workSchema = new mongoose.Schema({
         required: true
     },
     description: String,
-    status: {
-        type: String,
-        enum: ['pending', 'done']
-    },
-    date: String,
-    time: String
 },
 {
     timestamps: true

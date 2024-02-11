@@ -98,7 +98,12 @@ async function login(req, res) {
         return res.status(200).send({
             status: true,
             message: 'You are logged in',
-            token: token,
+            data: {
+                token: token,
+                time: Date.now(),
+                name: user.name,
+                email: user.email
+            }
         })
     } catch (error) {
         res.status(500).send({
