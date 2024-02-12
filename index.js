@@ -5,7 +5,7 @@ const route = require('./src/routes/route');
 const app = express();
 const cors = require('cors');
 
-mongoose.connect(process.env.DB_CONNECTION_STRING)
+mongoose.connect(process.env.DB_CONNECTION_STRING, {useNewUrlParser: true})
 .then(()=> console.log('Connected with database...!'))
 .catch((err)=> console.log(err.message));
 
